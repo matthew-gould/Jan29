@@ -1,71 +1,106 @@
 require "pry"
 
-
-
-def roll_dice roll_number
-	# 3.times do
-	# roll_number.times do
-
-	player_total = []
-	turn_total = 0
-
-	total_rolls = (1..roll_number).to_a
-	
-	total_rolls.each do |x|
-		roll = rand(1..6)
-
-		if roll == 1
-			puts "You've lost all your points for this turn!"
-			return 0
-		else
-			turn_total += roll
-		end
-	end
-	
-	puts "Your total for this turns is: #{turn_total}"	
-	turn_total
-end
-
-def current_turn
-	roll_dice 0
-end
-
-
-puts "How many times would you like to roll?"
-	roll_number = gets.chomp.to_i
-	roll_dice(roll_number)
+# 	# 3.times do
+# 	# roll_number.times do
 
 max_score = 20
-player1_total = 0
-player2_total = 0
+p1_score = 0
+p2_score = 0
 
-if player1_total <= max_score
-	puts "It is now player 2's turn. Current score is #{player2_total}."
-elsif player2_total <= max_score
-	player1_total += current_turn
-	puts "It is now player player 1's turn. Current score #{player1_total}."
-	player2_total += current_turn
-else
-	puts "The game hath ended!"
-	puts
-puts
-	if player1_total > player2_total
-		puts "Congrats player 1, all your base are belong to us!"
-	elsif player2_total > player1_total
-		puts "Congrats player 2, all your base are belong to us!"
-	else
-		puts "We have a tie.. You both fail!"
+def current_turn roll_number
+	turn_total = 0
+	dice_roll = []
+	
+	roll_number.times do
+		roll = rand(1..6)
+		dice_roll.push roll
+
+		if roll == 1
+			puts "DOH! You rolled #{dice_roll} awarded 0 points!"
+			return 0
+			
+		else 
+			turn_total += roll	
+		end
+	end
+
+	puts "You rollled #{dice_roll} and your total is: #{turn_total}"
+	puts "----------------------------------------"
+	return turn_total
+end
+
+def play_game player_name
+	
+	player_score = []
+
+	player_name.each do |x|
+		"#{x} it is your turn. How many times would you like to roll?"
+		roll_number = gets.chomp.to_i
+		player_score.push current_turn(roll_number)
 	end
 end
 
+def start_game
+	puts "----------------------------------------"
+	puts "Welcome to HOG!\n\nThe object of this game is to be the first player to obtain 100 points by rolling dice."
+	puts "If you roll a 1 on ANY of your rolls, you will recieve 0 points for that turn."
+	puts "----------------------------------------"
+end
 
-	
+start_game
+
+puts "How many players would like to play? Please type a number (1-10)!\n"
+	players = gets.chomp.to_i
+	puts "You have chosen #{players} players!"
+	puts "\n---------------------------\n"
+
+players = (1..players).to_a
+
+player_name = []
+
+	players.each do |player_number|
+		puts "\nPlayer #{player_number} please enter your name:"
+			name_of_player = gets.chomp.downcase.capitalize
+			player_name.push name_of_player
+	end
+
+puts "\n---------------------------\n\n"
+puts "#{player_name}\n\n"
+
+# need to get the number of players + names into the game
+# and keep track of their scores.
+
+# player(n) where n = first player in player array
 
 
-	# puts
-	# puts
-	# puts "Your roll total is #{(player_total)}"
-	# puts "-------------------------"
-	# puts
-	# puts
 
+
+# until p1_score >= max_score || p2_score >= max_score
+# 	puts "It is now player 1's turn. Current score: #{p1_score}"
+# 	puts "How many times would you like to roll?"
+# 	roll_number = gets.chomp.to_i
+# 	p1_score += current_turn(roll_number)
+
+# 	puts
+# 	puts
+
+# 	puts "It is now player 2's turn. Current score: #{p2_score}"
+# 	puts "How many times would you like to roll?"
+# 	roll_number = gets.chomp.to_i
+# 	p2_score += current_turn(roll_number)
+
+# 	puts
+# 	puts
+# end
+
+# if p1_score > p2_score
+# 	puts "The game hath ended!]\n"
+# 	puts "----------------------------------------\n\n\n"
+# 	puts "Congrats player 1, all your base are belong to us!\n\n\n"
+# elsif p2_score > p1_score
+# 	puts "The game hath ended!\n"
+# 		puts "----------------------------------------\n\n\n"
+# 	puts "Congrats player 2, all your base are belong to us!\n\n\n"
+# else
+# 	puts "We have a tie.. You both fail!\n\n\n"
+# end
